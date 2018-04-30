@@ -1,0 +1,87 @@
+body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  background-color: black;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.bar {
+  width: 100vw;
+  height: 50px;
+  background: #4d4250;
+}
+
+.bar .bar-left {
+  width: 50vw;
+  height: 100%;
+  float:left;
+  background: #2f1e2e;
+}
+
+.bar .bar-right {
+  width: 50vw;
+  height: 100%;
+  float:left;
+  background: #e7e9db;
+}
+
+.bar h1 {
+  display: block;
+  height: 50px;
+  line-height: 50px;
+  margin: 0;
+  padding: 0;
+  float: left;
+  margin-left: 17px;
+  color: #b9b6b0;
+}
+
+.bar a {
+  display: block;
+  height: 50px;
+  line-height: 50px;
+  margin: 0;
+  padding: 0;
+  float: right;
+  margin-right: 12px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #b9b6b0;
+  letter-spacing: 2px;
+  text-decoration: none;
+}
+
+.bar a:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.bar p {
+  display: block;
+  height: 50px;
+  line-height: 50px;
+  margin: 0;
+  padding: 0;
+  float: right;
+  margin-right: 17px;
+  color: #b9b6b0;
+  letter-spacing: 2px;
+}
+
+.panes {
+  width: 100vw;
+  height: calc(100vh - 50px);
+}
+
+.pane {
+  width: 50%;
+  height: 100%;
+  float: left;
+}
+
+.CodeMirror {
+  height: 100%;
+  font-size: 16px;
+}

@@ -1,12 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>bracel</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,800">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/codemirror.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/theme/paraiso-light.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/theme/paraiso-dark.min.css" />
+  <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
-  bracel
+  <div class="bar">
+    <div class="bar-left">
+      <h1>bracel</h1>
+      <a href="https://github.com/martyzz/bracel"><i class="fa fa-github fa-fw" aria-hidden="true"></i> Github</a>
+      <p><small>Try it out by typing into purple source.</small></p>
+    </div>
+    <div class="bar-right"></div>
+  </div>
+  <div class="panes">
+    <div class="pane">
+      <textarea id="field-bracel">!DOCTYPE(html);
+html(lang="en") {
+  head {
+    meta(charset="UTF-8");
+    meta(name="viewport" content="width=device-width, initial-scale=1.0");
+    meta(http-equiv="X-UA-Compatible" content="ie=edge");
+    title {demo}
+    link(rel="stylesheet" href="css/style.css");
+  }
+  body {
+    h1 {Curabitur}
+    
+    p(class="text") {
+      Curabitur elementum aliquet nisl, vitae pharetra tellus.
+      Proin sed massa eget augue vehicula sollicitudin a sed ex.
+      Pellentesque hendrerit nulla nec diam fringilla mollis.
+      Cras in b {condimentum} est, non congue lectus.
+    }
+    
+    script(type="text/javascript" src="js/script.js") {}
+    script(type="text/javascript") :{
+      alert("Curabitur elementum aliquet nisl, vitae pharetra tellus.");
+    }
+  }
+}</textarea>
+    </div>
+    <div class="pane pane-right">
+      <textarea id="field-html"></textarea>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/addon/edit/closebrackets.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/addon/mode/simple.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/addon/selection/active-line.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/mode/xml/xml.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/mode/htmlmixed/htmlmixed.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bracel@0.0.6/build/bracel.min.js"></script>
+  <script>
+
+    CodeMirror.defineSimpleMode("bracel", {
+      start: [
+        {
+          regex: /([a-zA-Z0-9\-\_]+)\s*(\=)(\".*?\")/,
+          token: ["variable", null, "string"]
+        },
+        {
+          regex: /([a-zA-Z0-9\-\_]+)\s*(\=)([0-9\.])/,
+          token: ["variable", null, "number"]
+        },
+        {
+          regex: /([a-zA-Z0-9\-\_]+)\s*(\()/,
+          token: ["keyword", "bracket"]
+        },
+        {
+          regex: /([a-zA-Z0-9\-\_]+)\s*(\{)/,
+          token: ["keyword", "bracket",]
+        },
+        {
+          regex: /([a-zA-Z0-9\-\_]+)\s*(\:)\s*(\{)/,
+          token: ["keyword", null, "bracket"]
+        },
+        {
+          regex: /([a-zA-Z0-9\-\_]+)\s*(\;)/,
+          token: ["keyword", "bracket"]
+        },
+        { regex: /\{/, indent: true, token: ["bracket"] },
+        { regex: /\}/, dedent: true, token: ["bracket"] },
+      ]
+    });
+
+    var fieldBracelNode = document.querySelector("textarea#field-bracel");
+    var fieldHtmlNode = document.querySelector("textarea#field-html");
+
+    var editorBracel = CodeMirror.fromTextArea(fieldBracelNode, {
+      lineNumbers: true,
+      tabSize: 2,
+      autoCloseBrackets: true,
+      indentWithTabs: false,
+      theme: "paraiso-dark",
+      mode: "bracel",
+      styleActiveLine: true
+    });
+
+    var editorHtml = CodeMirror.fromTextArea(fieldHtmlNode, {
+      lineNumbers: true,
+      tabSize: 2,
+      indentWithTabs: false,
+      theme: "paraiso-light",
+      readOnly: true,
+      mode: "htmlmixed",
+      styleActiveLine: true
+    });
+
+    editorBracel.on('change', function (instance) {
+      editorHtml.setValue(bracel(editorBracel.getValue()));
+      editorHtml.setCursor(editorBracel.getCursor());
+    });
+
+    editorHtml.setValue(bracel(editorBracel.getValue()));
+  </script>
 </body>
+
 </html>
